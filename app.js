@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var glob = require('glob');
 
+var apiRoutes = require('./routes/api');
+
 var router = express.Router();
 
 router.get('/*', function(req, res, next) {
@@ -37,7 +39,7 @@ router.get('/*', function(req, res, next) {
     });
   }
 
-  res.render('index', { title: 'Express', scripts: scripts, css: css });
+  res.render('index', { title: 'Sample App', scripts: scripts, css: css });
 });
 
 var app = express();
@@ -56,6 +58,7 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+app.use('/api', apiRoutes);
 app.use('/', router);
 
 // catch 404 and forward to error handler
