@@ -1,15 +1,21 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { Router, Route, IndexRoute } from 'react-router'
-import { createHistory } from 'history'
-
+/**
+ * Dependencies
+ */
+var React = require('react')
+var ReactDOM = require('react-dom')
+var { match, Router } = require('react-router')
 var fastclick = require('fastclick')
+var createBrowserHistory = require('history/lib/createBrowserHistory')
+let history = createBrowserHistory()
+var { syncReduxAndRouter } = require('redux-simple-router')
 
-var App = require('./routes/app')
-var Home = require('./routes/home')
-var NotFound = require('./routes/not-found')
+/**
+ * Local dependencies
+ */
+var { Provider } = require('react-redux')
+var configureStore = require('./lib/configureStore')
 
-var history = createHistory()
+import routes from './routes'
 
 // Webpack lets us us embed styles and assets within the code.
 require('./styles/main.less')
@@ -19,14 +25,23 @@ require('./styles/main.less')
  */
 fastclick.attach(document.body)
 
-render((
-  <Router history={history}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Home}/>
-      <Route path="*" component={NotFound}/>
-    </Route>
-  </Router>
-), document.getElementById('app-container'))
+document.addEventListener('DOMContentLoaded', function domLoaded (event) {
+  var initialState = window.__INITIAL_STATE__
 
+  // On a 404 page, store isn't initialized and the client shouldn't bootstrap anything
+  if (initialState === 404) {
+    return
+  }
 
+  var store = configureStore(initialState)
+  syncReduxAndRouter(history, store)
+
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router history={history}>
+        {routes}
+      </Router>
+    </Provider>, document.getElementById('app-container')
+  )
+})
 

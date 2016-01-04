@@ -14,7 +14,6 @@ var Home = React.createClass({
       </DocumentTitle>
     )
   }
-
 })
 
 module.exports = Home

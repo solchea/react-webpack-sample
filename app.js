@@ -4,62 +4,39 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var glob = require('glob');
+
+/**
+ * We register babel which allows us to use es6 syntax as well as JSX.
+ */
+require('babel-core/register')({
+  presets: ['es2015', 'react', 'stage-2']
+});
+
+require('dotenv').config({
+  path: __dirname + '/.env.' + (process.env.NODE_ENV || 'development')
+})
 
 var apiRoutes = require('./routes/api');
 
-var router = express.Router();
-
-router.get('/*', function(req, res, next) {
-
-  var scripts = []
-  var css = []
-
-  if (process.env.NODE_ENV == 'development') {
-    scripts = [
-      'http://localhost:8080/webpack-dev-server.js',
-      'http://localhost:8080/public/build/js/vendor.bundle.js',
-      'http://localhost:8080/public/build/js/bundle.js'
-    ]
-  } else {
-    var js = glob.sync(
-      '/public/build/js/bundle.*.js', {root: __dirname}
-    );
-
-    scripts = js.map(function (f) {
-      return '/public/build/js/' + path.basename(f);
-    });
-
-    var styles = glob.sync(
-      '/public/build/css/bundle.*.css', {root: __dirname}
-    );
-
-    css = styles.map(function (f) {
-      return '/public/build/css/' + path.basename(f);
-    });
-  }
-
-  res.render('index', { title: 'Sample App', scripts: scripts, css: css });
-});
+var renderer = require('./server/render');
 
 var app = express();
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/api', apiRoutes);
-app.use('/', router);
+app.use('/', renderer());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -91,6 +68,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;

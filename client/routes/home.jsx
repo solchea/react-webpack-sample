@@ -6,7 +6,7 @@ var Home = React.createClass({
   displayName: 'Home',
 
   render: function () {
-    var title = 'Helo World'
+    var title = 'Home'
 
     return (
       <DocumentTitle title={ title }>
@@ -14,7 +14,6 @@ var Home = React.createClass({
       </DocumentTitle>
     )
   }
-
 })
 
 module.exports = Home

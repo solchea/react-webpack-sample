@@ -6,15 +6,14 @@ var App = React.createClass({
   displayName: 'App',
 
   render: function () {
-    var title = 'Sample App'
+    var title = 'App'
 
     return (
-        <DocumentTitle title={ title }>
-            {this.props.children}
-        </DocumentTitle>
+      <DocumentTitle title={ title }>
+        {this.props.children}
+      </DocumentTitle>
     )
   }
-
 })
 
 module.exports = App
