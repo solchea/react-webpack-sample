@@ -1,11 +1,25 @@
-var { createStore, applyMiddleware } = require('redux')
-var thunkMiddleware = require('redux-thunk')
-var { rootReducer } = require('./reducers')
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
+import { routerReducer, routerMiddleware } from 'react-router-redux'
+import thunkMiddleware from 'redux-thunk'
+import * as reducers from './reducers'
 
-const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware
-)(createStore)
+module.exports = function configureStore (history, initialState) {
 
-module.exports = function configureStore (initialState) {
-  return createStoreWithMiddleware(rootReducer, initialState)
+	const reducer = combineReducers({
+		...reducers,
+		routing: routerReducer
+	})
+
+	const store = createStore(
+		reducer,
+		initialState,
+		compose(
+			applyMiddleware(
+				thunkMiddleware,
+				routerMiddleware(history)
+			)
+		)
+	)
+
+  return store
 }

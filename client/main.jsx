@@ -3,16 +3,15 @@
  */
 var React = require('react')
 var ReactDOM = require('react-dom')
-var { match, Router } = require('react-router')
 var fastclick = require('fastclick')
-var createBrowserHistory = require('history/lib/createBrowserHistory')
-let history = createBrowserHistory()
-var { syncReduxAndRouter } = require('redux-simple-router')
+import { Provider } from 'react-redux'
+import { Router, Route, browserHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
+
 
 /**
  * Local dependencies
  */
-var { Provider } = require('react-redux')
 var configureStore = require('./lib/configureStore')
 
 import routes from './routes'
@@ -32,9 +31,8 @@ document.addEventListener('DOMContentLoaded', function domLoaded (event) {
   if (initialState === 404) {
     return
   }
-
-  var store = configureStore(initialState)
-  syncReduxAndRouter(history, store)
+  const history = syncHistoryWithStore(browserHistory, store)
+  var store = configureStore(history, initialState)
 
   ReactDOM.render(
     <Provider store={store}>
@@ -44,4 +42,3 @@ document.addEventListener('DOMContentLoaded', function domLoaded (event) {
     </Provider>, document.getElementById('app-container')
   )
 })
-

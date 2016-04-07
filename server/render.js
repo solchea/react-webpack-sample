@@ -1,9 +1,7 @@
 /**
  * Dependencies
  */
-//var React = require('react')
 var ReactDOMServer = require('react-dom/server')
-//var { match, RoutingContext } = require('react-router')
 var { Provider } = require('react-redux')
 var DocumentTitle = require('react-document-title')
 var _ = require('lodash')
@@ -12,7 +10,7 @@ var glob = require('glob')
 
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { match, RoutingContext } from 'react-router';
+import { match, RouterContext } from 'react-router';
 
 import routes from './../client/routes';
 
@@ -59,7 +57,7 @@ module.exports = function () {
           initialState = store.getState()
           markup = ReactDOMServer.renderToString(
             <Provider store={store}>
-              <RoutingContext {...renderProps}/>
+              <RouterContext {...renderProps}/>
             </Provider>
           )
         }
