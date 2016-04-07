@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function domLoaded (event) {
   if (initialState === 404) {
     return
   }
-  const history = syncHistoryWithStore(browserHistory, store)
   var store = configureStore(history, initialState)
+  const history = syncHistoryWithStore(browserHistory, store)
 
   ReactDOM.render(
     <Provider store={store}>
