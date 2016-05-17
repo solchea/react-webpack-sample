@@ -1,12 +1,12 @@
 /**
  * Dependencies
  */
-var ReactDOMServer = require('react-dom/server')
-var { Provider } = require('react-redux')
-var DocumentTitle = require('react-document-title')
-var _ = require('lodash')
-var path = require('path')
-var glob = require('glob')
+import ReactDOMServer from 'react-dom/server'
+import { Provider } from 'react-redux'
+import Helmet from 'react-helmet'
+import { get } from 'lodash'
+import path from 'path'
+import glob from 'glob'
 
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -61,7 +61,7 @@ module.exports = function () {
             </Provider>
           )
         }
-        DocumentTitle.rewind()
+        Helmet.rewind()
 
         return {
           initialState: initialState,
@@ -82,9 +82,9 @@ module.exports = function () {
       }
 
       // check the matched route for a bootstrap function
-      var len = _.get(renderProps, 'routes.length')
+      var len = get(renderProps, 'routes.length')
       var lastRoute = len && renderProps.routes[len - 1]
-      var bootstrap = lastRoute && _.get(lastRoute, 'component.bootstrap')
+      var bootstrap = lastRoute && get(lastRoute, 'component.bootstrap')
 
       var scripts = []
       var css = []

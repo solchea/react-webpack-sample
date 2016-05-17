@@ -1,19 +1,22 @@
-var React = require('react')
-var DocumentTitle = require('react-document-title')
+import React from 'react'
+import Helmet from "react-helmet"
 
-var App = React.createClass({
+export default class App extends React.Component {
+  static displayName = 'App'
 
-  displayName: 'App',
+  constructor(props) {
+    super(props)
+    // Operations usually carried out in componentWillMount go here
+  }
 
-  render: function () {
+  render() {
     var title = 'App'
 
     return (
-      <DocumentTitle title={ title }>
+      <div>
+        <Helmet title={title} />
         {this.props.children}
-      </DocumentTitle>
+      </div>
     )
   }
-})
-
-module.exports = App
+}

@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
  * We register babel which allows us to use es6 syntax as well as JSX.
  */
 require('babel-core/register')({
-  presets: ['es2015', 'react', 'stage-2']
+  presets: ['es2015', 'react', 'stage-1', 'stage-2']
 });
 
 require('dotenv').config({

@@ -21,7 +21,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.(js|jsx)$/,
-      loaders: ['babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-2'],
+      loaders: ['babel-loader?presets[]=es2015&presets[]=react&presets[]=stage-1&presets[]=stage-2'],
       exclude: /node_modules/
     }, {
       test: /\.less$/,

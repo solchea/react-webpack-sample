@@ -1,19 +1,21 @@
-var React = require('react')
-var DocumentTitle = require('react-document-title')
+import React from 'react'
+import Helmet from "react-helmet";
 
-var Home = React.createClass({
+export default class NotFound extends React.Component {
+  static displayName = 'NotFound'
 
-  displayName: 'NotFound',
+  constructor(props) {
+    super(props)
+    // Operations usually carried out in componentWillMount go here
+  }
 
-  render: function () {
-    var title = 'Not Found'
+  render() {
+    var title = 'NotFound'
 
     return (
-      <DocumentTitle title={ title }>
+      <Helmet title={title}>
         <div>Page Not Found</div>
-      </DocumentTitle>
+      </Helmet>
     )
   }
-})
-
-module.exports = Home
+}

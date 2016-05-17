@@ -1,19 +1,22 @@
-var React = require('react')
-var DocumentTitle = require('react-document-title')
+import React from 'react'
+import Helmet from 'react-helmet'
 
-var Home = React.createClass({
+export default class Home extends React.Component {
+  static displayName = 'Home'
 
-  displayName: 'Home',
+  constructor(props) {
+    super(props)
+    // Operations usually carried out in componentWillMount go here
+  }
 
-  render: function () {
+  render() {
     var title = 'Home'
 
     return (
-      <DocumentTitle title={ title }>
+      <div>
+        <Helmet title={title} />
         <div>Hello World</div>
-      </DocumentTitle>
+      </div>
     )
   }
-})
-
-module.exports = Home
+}
